@@ -1,2 +1,3 @@
 # my_script
-Save some commonly used codes.
+Get the code of the gbm gene
+bash 
