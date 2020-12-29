@@ -2,6 +2,7 @@
 
 my %hash;
 while (my $file = glob "/gpfsdata/shiyan/Mango/Meth/metaplot/LF_gene/all.*_C*.txt"){
+###metaplot data position;
         $sample = $file;
         $sample =~ s/.txt//g;
         $sample =~ s/\/gp.*.LF_gene\///g;
