@@ -1,0 +1,14 @@
+
+cat <(perl merge.cds.region.pl <(paste <(bedtools coverage -a <(grep CDS Mango.gff3 |cut -f 1,4,5,7,9|sed 's/;.*//g;'|sed 's/ID=//g'|grep '+') -b <(grep -w 'CG' $1 |grep '+'|awk '$8>=2{print $1"\t"$2"\t"$2+1}')) <( bedtools coverage -a <(grep CDS Mango.gff3 |cut -f 1,4,5,7,9|sed 's/;.*//g;'|sed 's/ID=//g'|grep '+') -b <(grep -w 'CG' $2 |grep '+'|awk '$8>=2{print $1"\t"$2"\t"$2+1}') ) | cut -f 1-6,15) ) <(perl merge.cds.region.pl <(paste <(bedtools coverage -a <(grep CDS Mango.gff3 |cut -f 1,4,5,7,9|sed 's/;.*//g;'|sed 's/ID=//g'|grep -v '+') -b <(grep -w 'CG' $1 |grep -v '+'|awk '$8>=2{print $1"\t"$2"\t"$2+1}') ) <(bedtools coverage -a <(grep CDS Mango.gff3 |cut -f 1,4,5,7,9|sed 's/;.*//g;'|sed 's/ID=//g'|grep -v '+') -b <(grep -w 'CG' $2 |grep -v '+'|awk '$8>=2{print $1"\t"$2"\t"$2+1}') ) | cut -f 1-6,15)) > $3.CG
+
+cat <(perl merge.cds.region.pl <(paste <(bedtools coverage -a <(grep CDS Mango.gff3 |cut -f 1,4,5,7,9|sed 's/;.*//g;'|sed 's/ID=//g'|grep '+') -b <(grep -w 'CHG' $1 |grep '+'|awk '$8>=2{print $1"\t"$2"\t"$2+1}')) <( bedtools coverage -a <(grep CDS Mango.gff3 |cut -f 1,4,5,7,9|sed 's/;.*//g;'|sed 's/ID=//g'|grep '+') -b <(grep -w 'CHG' $2 |grep '+'|awk '$8>=2{print $1"\t"$2"\t"$2+1}') ) | cut -f 1-6,15) ) <(perl merge.cds.region.pl <(paste <(bedtools coverage -a <(grep CDS Mango.gff3 |cut -f 1,4,5,7,9|sed 's/;.*//g;'|sed 's/ID=//g'|grep -v '+') -b <(grep -w 'CHG' $1 |grep -v '+'|awk '$8>=2{print $1"\t"$2"\t"$2+1}') ) <(bedtools coverage -a <(grep CDS Mango.gff3 |cut -f 1,4,5,7,9|sed 's/;.*//g;'|sed 's/ID=//g'|grep -v '+') -b <(grep -w 'CHG' $2 |grep -v '+'|awk '$8>=2{print $1"\t"$2"\t"$2+1}') ) | cut -f 1-6,15)) > $3.CHG
+
+cat <(perl merge.cds.region.pl <(paste <(bedtools coverage -a <(grep CDS Mango.gff3 |cut -f 1,4,5,7,9|sed 's/;.*//g;'|sed 's/ID=//g'|grep '+') -b <(grep -w 'CHH' $1 |grep '+'|awk '$8>=2{print $1"\t"$2"\t"$2+1}')) <( bedtools coverage -a <(grep CDS Mango.gff3 |cut -f 1,4,5,7,9|sed 's/;.*//g;'|sed 's/ID=//g'|grep '+') -b <(grep -w 'CHH' $2 |grep '+'|awk '$8>=2{print $1"\t"$2"\t"$2+1}') ) | cut -f 1-6,15) ) <(perl merge.cds.region.pl <(paste <(bedtools coverage -a <(grep CDS Mango.gff3 |cut -f 1,4,5,7,9|sed 's/;.*//g;'|sed 's/ID=//g'|grep -v '+') -b <(grep -w 'CHH' $1 |grep -v '+'|awk '$8>=2{print $1"\t"$2"\t"$2+1}') ) <(bedtools coverage -a <(grep CDS Mango.gff3 |cut -f 1,4,5,7,9|sed 's/;.*//g;'|sed 's/ID=//g'|grep -v '+') -b <(grep -w 'CHH' $2 |grep -v '+'|awk '$8>=2{print $1"\t"$2"\t"$2+1}') ) | cut -f 1-6,15)) > $3.CHH
+
+perl binomialtest.pl $4 $1 $3.CG $3.CHG $3.CHH 
+
+paste $3.CG.qvalue $3.CHG.qvalue $3.CHH.qvalue |awk '{if ($5<0.05 && $10>0.05 && $15>0.05 && $3 >=20) print }' |cut -f 1 >  $3.gbM.ID
+
+perl  meatplot.pl   $3.gbM.ID  
+
+Rscript metaplot.R CG.$3.gbM.average CHG.$3.gbM.average CHH.$3.gbM.average  $3.pdf 1 methylation
