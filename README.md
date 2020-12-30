@@ -13,6 +13,6 @@ genome.fa : calculate numer of CG, CHG and CHH sites in whole genome.
 
 Path to success : /gpfsdata/shiyan/Mango/Meth/gbM
 
-![image](https://github.com/FAFUshiyan/GBM-gene-body-methylation/blob/main/example.png)
+![image](https://github.com/FAFUshiyan/GBM-gene-body-methylation/blob/main/Image/example.png)
 
 cite : On the origin and evolutionary consequences of gene body DNA methylation
