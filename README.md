@@ -1,8 +1,7 @@
 # my_script
 Get the code of the gbm gene;
-usage:
 
-bash gbM.mCG.sh m_C.txt all_C.txt outfile_ID genome.fa
+usage:bash gbM.mCG.sh m_C.txt all_C.txt outfile_ID genome.fa
 
 m_C.txt : from methratio.py and binomialtest;
 
